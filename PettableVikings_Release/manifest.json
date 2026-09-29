@@ -1,0 +1,9 @@
+{
+  "name": "PettableVikings",
+  "version_number": "1.0.1",
+  "website_url": "",
+  "description": "Allows you to pet other players. Fully customizable with dynamic names, toggleable effects, and custom text.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

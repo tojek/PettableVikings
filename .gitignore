@@ -1,0 +1,7 @@
+bin/
+obj/
+*.zip
+*.tar.gz
+*.dll
+.vs/
+*.user
