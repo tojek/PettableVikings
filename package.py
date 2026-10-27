@@ -9,8 +9,8 @@ import argparse, json, re, struct, subprocess, sys, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SRC = ROOT / "PettableVikings"
-REL = ROOT / "PettableVikings_Release"
+SRC = ROOT / "src"
+REL = ROOT / "package"
 
 def fail(msg):
     sys.exit(f"ERROR: {msg}")
@@ -72,6 +72,7 @@ def main():
         for f in ("manifest.json", "README.md", "CHANGELOG.md", "icon.png"):
             z.write(REL / f, f)
         z.write(dll, "PettableVikings.dll")
+        z.write(ROOT / "LICENSE", "LICENSE")
     print(f"Wrote {zpath}")
     print("Contents:", ", ".join(zipfile.ZipFile(zpath).namelist()))
 
