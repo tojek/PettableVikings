@@ -10,7 +10,7 @@ namespace PettableVikings
     {
         private const string ModGUID = "com.valheim.pettablevikings";
         private const string ModName = "Pettable Vikings";
-        private const string ModVersion = "1.0.1";
+        private const string ModVersion = "1.0.2";
 
         public static ConfigEntry<bool> ModEnabled;
         public static ConfigEntry<string> HoverText;
@@ -33,8 +33,8 @@ namespace PettableVikings
             ShowHearts = Config.Bind("2 - Visuals & Audio", "1_ShowHearts", true, "Show the pink hearts effect when petting.");
             PlaySound = Config.Bind("2 - Visuals & Audio", "2_PlaySound", true, "Play the default love sound when petting.");
 
-            if (!ModEnabled.Value) return;
-
+            // Always patch: every handler checks ModEnabled at runtime, so toggling the
+            // setting in-game (Configuration Manager) works without a restart.
             Harmony harmony = new Harmony(ModGUID);
             harmony.PatchAll();
         }
@@ -59,9 +59,10 @@ namespace PettableVikings
         public static void Postfix(Player __instance, ref string __result)
         {
             if (!PettableVikingsPlugin.ModEnabled.Value) return;
-            if (__instance == Player.m_localPlayer || __instance.IsDead()) return;
+            Player localPlayer = Player.m_localPlayer;
+            if (localPlayer == null || __instance == localPlayer || __instance.IsDead()) return;
 
-            float distance = Vector3.Distance(Player.m_localPlayer.transform.position, __instance.transform.position);
+            float distance = Vector3.Distance(localPlayer.transform.position, __instance.transform.position);
             if (distance > PettableVikingsPlugin.InteractionDistance.Value) return;
 
             string formattedHover = PettableVikingsPlugin.HoverText.Value.Replace("@viking", __instance.GetPlayerName());
@@ -75,7 +76,9 @@ namespace PettableVikings
     {
         private Player _thisPlayer;
         private ZNetView _nview;
-        private float _lastPetTime;
+        private float _lastPetTime = -1000f;
+        private float _lastVfxTime = -1000f;
+        private const float MinVfxInterval = 0.25f;
 
         /// Initializes the petting component by caching player and network references and registering the VFX RPC.
         private void Awake()
@@ -98,18 +101,23 @@ namespace PettableVikings
         {
             if (!PettableVikingsPlugin.ModEnabled.Value) return false;
 
-            if (hold || alt || _thisPlayer == Player.m_localPlayer) return false;
+            Player localPlayer = Player.m_localPlayer;
+            if (hold || alt || localPlayer == null || _thisPlayer == null || _thisPlayer == localPlayer || _thisPlayer.IsDead()) return false;
 
-            float distance = Vector3.Distance(Player.m_localPlayer.transform.position, _thisPlayer.transform.position);
+            float distance = Vector3.Distance(localPlayer.transform.position, _thisPlayer.transform.position);
             if (distance > PettableVikingsPlugin.InteractionDistance.Value) return false;
 
             if (Time.time - _lastPetTime < PettableVikingsPlugin.CooldownTimer.Value) return false;
             _lastPetTime = Time.time;
 
-            user.GetComponent<Animator>()?.SetTrigger("interact");
+            Animator animator = user.GetComponent<Animator>();
+            if (animator != null) animator.SetTrigger("interact");
 
             string finalMessage = PettableVikingsPlugin.InteractionMessage.Value.Replace("@viking", _thisPlayer.GetPlayerName());
-            MessageHud.instance.ShowMessage(MessageHud.MessageType.Center, finalMessage);
+            if (MessageHud.instance != null)
+            {
+                MessageHud.instance.ShowMessage(MessageHud.MessageType.Center, finalMessage);
+            }
 
             if (_nview != null && _nview.IsValid())
             {
@@ -133,7 +141,14 @@ namespace PettableVikings
         /// <param name="sender">The network sender's ID (not used in this implementation).</param>
         private void RPC_PetVFX(long sender)
         {
+            if (!PettableVikingsPlugin.ModEnabled.Value) return;
             if (!PettableVikingsPlugin.ShowHearts.Value && !PettableVikingsPlugin.PlaySound.Value) return;
+
+            // Remote clients can invoke this RPC at will, so ignore bursts.
+            if (Time.time - _lastVfxTime < MinVfxInterval) return;
+            _lastVfxTime = Time.time;
+
+            if (_thisPlayer == null || ZNetScene.instance == null) return;
 
             GameObject boarPrefab = ZNetScene.instance.GetPrefab("Boar");
             if (boarPrefab != null)

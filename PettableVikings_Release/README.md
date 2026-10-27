@@ -2,6 +2,8 @@
 
 Have you ever wanted to show some appreciation to your fellow Vikings after a hard day of chopping wood and slaying Trolls? Now you can! **Pettable Vikings** is a fully customizable, multiplayer-ready mod that allows players to "pet" each other in Valheim.
 
+Updated for **Valheim 1.0** (Deep North).
+
 ## ✨ Features
 
 * **Multiplayer Synced:** Uses native RPC. When you pet someone, everyone nearby sees the hearts and hears the sound!
@@ -16,25 +18,25 @@ Have you ever wanted to show some appreciation to your fellow Vikings after a ha
 After running the game once, a configuration file (`com.valheim.pettablevikings.cfg`) will be generated. You can change:
 
 ### 1 - General
-* **Enabled:** Toggle the entire mod on or off.
-* **HoverText:** What shows up on your crosshair. (Default: `Pet @viking`)
-* **Message:** What shows up on the screen after interaction. (Default: `@viking loves you`)
-* **Distance:** Maximum interaction range in meters. (Default: `2.0`)
-* **Cooldown:** Delay between interactions in seconds. (Default: `1.0`)
+* **1_Enabled:** Toggle the entire mod on or off.
+* **2_HoverText:** What shows up on your crosshair. (Default: `Pet @viking`)
+* **3_Message:** What shows up on the screen after interaction. (Default: `@viking loves you`)
+* **4_Distance:** Maximum interaction range in meters. (Default: `2.0`)
+* **5_Cooldown:** Delay between interactions in seconds. (Default: `1.0`)
 
 ### 2 - Visuals & Audio
-* **ShowHearts:** Spawns the lovely pink heart particles. (Default: `true`)
-* **PlaySound:** Plays the adorable pet sound. (Default: `true`)
+* **1_ShowHearts:** Spawns the lovely pink heart particles. (Default: `true`)
+* **2_PlaySound:** Plays the adorable pet sound. (Default: `true`)
 
 *(Pro tip: Use the `@viking` tag in HoverText or Message, and the mod will swap it out dynamically!)*
 
 ## 🛠️ Installation
 
 ### Using Mod Manager (Recommended)
-Simply install via [r2modman](https://valheim.thunderstore.io/package/ebkr/r2modman/) or the Thunderstore app. All dependencies will be handled automatically!
+Install with [Gale](https://hexium.gg/mod-manager) or any Thunderstore-compatible mod manager. BepInExPack Valheim is installed automatically as a dependency.
 
 ### Manual Installation
-1. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/).
+1. Install [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/).
 2. Download the `.zip` file for this mod.
 3. Extract `PettableVikings.dll` into your `Valheim/BepInEx/plugins/` folder.
 

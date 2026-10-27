@@ -1,17 +1,28 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>PettableVikings</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <!-- Default Steam path on Linux; override with -p:ValheimPath=... -->
+    <ValheimPath Condition="'$(ValheimPath)' == ''">$(HOME)/.local/share/Steam/steamapps/common/Valheim</ValheimPath>
+    <!-- Mod manager profile folder (Gale: Settings > Browse Profile Folder); must contain BepInEx/core -->
+    <BepInExProfilePath Condition="'$(BepInExProfilePath)' == ''"></BepInExProfilePath>
   </PropertyGroup>
+
+  <!-- Never copy game or BepInEx DLLs into the build output -->
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>false</Private>
+    </Reference>
+  </ItemDefinitionGroup>
 
   <ItemGroup>
     <Reference Include="BepInEx">
-      <HintPath>$(R2ProfilePath)/BepInEx/core/BepInEx.dll</HintPath>
+      <HintPath>$(BepInExProfilePath)/BepInEx/core/BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="0Harmony">
-      <HintPath>$(R2ProfilePath)/BepInEx/core/0Harmony.dll</HintPath>
+      <HintPath>$(BepInExProfilePath)/BepInEx/core/0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="assembly_valheim">
       <HintPath>$(ValheimPath)/valheim_Data/Managed/assembly_valheim.dll</HintPath>
