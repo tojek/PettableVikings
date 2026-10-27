@@ -1,42 +1,33 @@
 # Pettable Vikings
 
-Have you ever wanted to show some appreciation to your fellow Vikings after a hard day of chopping wood and slaying Trolls? Now you can! **Pettable Vikings** is a fully customizable, multiplayer-ready mod that allows players to "pet" each other in Valheim.
+You can now pet other vikings!! - on Valheim 1.0.
 
-## ✨ Features
+Look at another player, press the use key, and a heart effect and sound play on their character while a short message shows on your screen. Other players with the mod installed see and hear the effect too.
 
-* **Multiplayer Synced:** Uses native RPC. When you pet someone, everyone nearby sees the hearts and hears the sound!
-* **Fully Customizable Text:** Change the crosshair text and the on-screen message to anything you want (e.g., Hug, High-five, Slap).
-* **Dynamic Names:** Use the `@viking` tag in your configuration, and the mod will automatically replace it with the target player's name!
-* **Toggleable Effects:** Don't like the pink hearts or the sound? You can easily turn them off in the config.
-* **Configurable Limits:** Set your own custom cooldown times and interaction distances.
-* **Live Updates:** Fully compatible with BepInEx Configuration Manager. Tweak settings in-game and see changes instantly without restarting!
+## Config
 
-## ⚙️ Configuration Options
+Settings are in `com.valheim.pettablevikings.cfg`, created the first time you run the game. They can also be changed live with BepInEx Configuration Manager.
 
-After running the game once, a configuration file (`com.valheim.pettablevikings.cfg`) will be generated. You can change:
+| Setting | Default | What it does |
+| --- | --- | --- |
+| `1_Enabled` | `true` | Turns the mod on or off. |
+| `2_HoverText` | `Pet @viking` | Prompt shown when you look at a player. |
+| `3_Message` | `@viking loves you` | Message shown on your screen after petting. |
+| `4_Distance` | `2.0` | Maximum distance in meters. |
+| `5_Cooldown` | `1.0` | Seconds before you can pet again. |
+| `1_ShowHearts` | `true` | Show the heart particles. |
+| `2_PlaySound` | `true` | Play the pet sound. |
 
-### 1 - General
-* **Enabled:** Toggle the entire mod on or off.
-* **HoverText:** What shows up on your crosshair. (Default: `Pet @viking`)
-* **Message:** What shows up on the screen after interaction. (Default: `@viking loves you`)
-* **Distance:** Maximum interaction range in meters. (Default: `2.0`)
-* **Cooldown:** Delay between interactions in seconds. (Default: `1.0`)
+`@viking` in the hover text or message is replaced with the other player's name. You can change both texts to anything, such as `@viking Smells funny...`
 
-### 2 - Visuals & Audio
-* **ShowHearts:** Spawns the lovely pink heart particles. (Default: `true`)
-* **PlaySound:** Plays the adorable pet sound. (Default: `true`)
+## Installation
 
-*(Pro tip: Use the `@viking` tag in HoverText or Message, and the mod will swap it out dynamically!)*
+Install with Gale or another Thunderstore-compatible mod manager. BepInExPack Valheim is pulled in as a dependency.
 
-## 🛠️ Installation
+Manual install: install [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/), then put `PettableVikings.dll` in `BepInEx/plugins/`.
 
-### Using Mod Manager (Recommended)
-Simply install via [r2modman](https://valheim.thunderstore.io/package/ebkr/r2modman/) or the Thunderstore app. All dependencies will be handled automatically!
+## Notes
 
-### Manual Installation
-1. Install [BepInExPack Valheim](https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/).
-2. Download the `.zip` file for this mod.
-3. Extract `PettableVikings.dll` into your `Valheim/BepInEx/plugins/` folder.
+The mod runs on the client. You only see the effects on players who also have it installed. Dedicated servers work without the mod installed on the server.
 
-## 🤝 Compatibility
-This mod is completely **Client-Side**, but to see the effects on other players, they need to have the mod installed as well. It works perfectly on dedicated servers.
+Source and issues: https://github.com/tojek/PettableVikings
